@@ -1,4 +1,4 @@
-package org.taobao.stresstester.core;
+package com.taobao.stresstester.core;
 
 /**
  * 

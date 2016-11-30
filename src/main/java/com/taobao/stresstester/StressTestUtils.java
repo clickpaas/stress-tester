@@ -2,11 +2,11 @@ package com.taobao.stresstester;
 
 import java.io.StringWriter;
 
-import org.taobao.stresstester.core.SimpleResultFormater;
-import org.taobao.stresstester.core.StressResult;
-import org.taobao.stresstester.core.StressResultFormater;
-import org.taobao.stresstester.core.StressTask;
-import org.taobao.stresstester.core.StressTester;
+import com.taobao.stresstester.core.SimpleResultFormater;
+import com.taobao.stresstester.core.StressResult;
+import com.taobao.stresstester.core.StressResultFormater;
+import com.taobao.stresstester.core.StressTask;
+import com.taobao.stresstester.core.StressTester;
 
 /**
  */
