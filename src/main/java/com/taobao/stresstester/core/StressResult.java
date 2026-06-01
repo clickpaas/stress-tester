@@ -18,6 +18,9 @@ public class StressResult {
 
 	private List<StressThreadWorker> workers;
 
+	/** 是否因错误率超限而被终止 */
+	private boolean aborted;
+
 	public long getTestsTakenTime() {
 		return testsTakenTime;
 	}
@@ -64,6 +67,14 @@ public class StressResult {
 
 	public void setWorkers(List<StressThreadWorker> workers) {
 		this.workers = workers;
+	}
+
+	public boolean isAborted() {
+		return aborted;
+	}
+
+	public void setAborted(boolean aborted) {
+		this.aborted = aborted;
 	}
 
 }

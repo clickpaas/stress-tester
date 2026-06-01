@@ -1,21 +1,22 @@
 package com.taobao.stresstester.core;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-
 public class SimpleResultFormater implements StressResultFormater {
-	// public static final Log log =
-	// LogFactory.getLog(SimpleResultFormater.class);
 	private static final Logger log = LoggerFactory.getLogger(SimpleResultFormater.class);
 
+	@Override
 	public void format(StressResult stressResult, Writer writer) {
+		format(stressResult, writer, null);
+	}
+
+	public void format(StressResult stressResult, Writer writer, String testName) {
 		long testsTakenTime = stressResult.getTestsTakenTime();
 		int totalRequests = stressResult.getTotalRequests();
 		int concurrencyLevel = stressResult.getConcurrencyLevel();
@@ -23,34 +24,32 @@ public class SimpleResultFormater implements StressResultFormater {
 		float takes = StatisticsUtils.toMs(testsTakenTime);
 
 		List<Long> allTimes = stressResult.getAllTimes();
+		int actualCompleted = allTimes.size(); // 实际完成请求数（可能因提前终止而小于计划值）
 		long totaleTimes = StatisticsUtils.getTotal(allTimes);
 
-		// float tps = (totalRequests * 1000) / takes;
-		float tps = 1000 * 1000000 * (concurrencyLevel * (totalRequests / (float) totaleTimes));
+		float tps = 1000 * 1000000 * (concurrencyLevel * (actualCompleted / (float) totaleTimes));
 
-		float averageTime = StatisticsUtils.getAverage(totaleTimes, totalRequests);
-		/** 理论单线程请求响应时间 */
+		float averageTime = StatisticsUtils.getAverage(totaleTimes, actualCompleted);
 		float onTheadAverageTime = averageTime / concurrencyLevel;
 
-		int count_50 = totalRequests / 2;
-		int count_66 = totalRequests * 66 / 100;
-		int count_75 = totalRequests * 75 / 100;
-		int count_80 = totalRequests * 80 / 100;
-		int count_90 = totalRequests * 90 / 100;
-		int count_95 = totalRequests * 95 / 100;
-		int count_98 = totalRequests * 98 / 100;
-		int count_99 = totalRequests * 99 / 100;
+		int count_50 = Math.min(actualCompleted / 2, actualCompleted - 1);
+		int count_66 = Math.min(actualCompleted * 66 / 100, actualCompleted - 1);
+		int count_75 = Math.min(actualCompleted * 75 / 100, actualCompleted - 1);
+		int count_80 = Math.min(actualCompleted * 80 / 100, actualCompleted - 1);
+		int count_90 = Math.min(actualCompleted * 90 / 100, actualCompleted - 1);
+		int count_95 = Math.min(actualCompleted * 95 / 100, actualCompleted - 1);
+		int count_98 = Math.min(actualCompleted * 98 / 100, actualCompleted - 1);
+		int count_99 = Math.min(actualCompleted * 99 / 100, actualCompleted - 1);
 
 		long longestRequest = allTimes.get(allTimes.size() - 1);
 		long shortestRequest = allTimes.get(0);
 
 		StringBuilder view = new StringBuilder();
 
-		// if (StringUtils.isNotBlank(serviceName)) {
-		// view.append(" Service Name:\t").append(serviceName);
-		// view.append("\r\n");
-		// }
-		view.append(" Concurrency Level:\t").append(concurrencyLevel).append("--并发数");
+		if (testName != null && !testName.isEmpty()) {
+			view.append(" Test Name:\t").append(testName).append("--测试名称");
+		}
+		view.append("\r\n Concurrency Level:\t").append(concurrencyLevel).append("--并发数");
 		view.append("\r\n Time taken for tests:\t").append(takes).append(" ms").append("--测试耗时");
 		view.append("\r\n Complete Requests:\t").append(totalRequests).append("--完成测试次数");
 		view.append("\r\n Failed Requests:\t").append(stressResult.getFailedRequests()).append("--失败次数");
@@ -79,10 +78,8 @@ public class SimpleResultFormater implements StressResultFormater {
 		try {
 			writer.write(view.toString());
 		} catch (IOException e) {
-			// log.error("IOException:", e);
 			log.error("", e);
 		}
-
 	}
 
 }

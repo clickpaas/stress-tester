@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Test Report#if($testName) - $testName#end</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        .test-name { text-align: center; font-size: 18px; color: #555; margin-top: -15px; margin-bottom: 25px; }
+        .meta { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }
+        .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border-radius: 6px; overflow: hidden; }
+        .summary-table th { background: linear-gradient(135deg, #1a73e8, #4285f4); color: #fff; padding: 12px 15px; text-align: left; font-size: 14px; }
+        .summary-table td { padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .summary-table tr:hover { background-color: #f8f9ff; }
+        .summary-table .label { font-weight: 600; color: #555; white-space: nowrap; min-width: 200px; display: inline-block; }
+        .summary-table .value { color: #1a73e8; font-weight: 700; }
+        .section-title { font-size: 18px; font-weight: 700; color: #333; margin: 30px 0 15px; padding-left: 10px; border-left: 4px solid #1a73e8; }
+        .percentile-table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border-radius: 6px; overflow: hidden; }
+        .percentile-table th { background: #555; color: #fff; padding: 10px 15px; text-align: center; }
+        .percentile-table td { padding: 9px 15px; text-align: center; border-bottom: 1px solid #eee; }
+        .percentile-bar { height: 22px; background: linear-gradient(90deg, #4caf50, #ff9800, #f44336); border-radius: 11px; position: relative; }
+        .percentile-marker { position: absolute; top: -28px; transform: translateX(-50%); font-size: 13px; font-weight: 700; color: #333; }
+        .percentile-label { font-size: 12px; color: #888; margin-top: 3px; }
+        .status-success { color: #4caf50; font-weight: 700; }
+        .status-fail { color: #f44336; font-weight: 700; }
+        footer { text-align: center; color: #bbb; font-size: 12px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Performance Stress Test Report</h1>
+#if($testName)
+        <div class="test-name">Test Name: $testName</div>
+#end
+        <div class="meta">Generated at $timestamp</div>
+
+        <table class="summary-table">
+            <thead><tr><th colspan="2">Test Summary</th></tr></thead>
+            <tbody>
+                <tr><td><span class="label">Test Name (测试名称)</span></td><td class="value">${testName}</td></tr>
+                <tr><td><span class="label">Concurrency Level (并发数)</span></td><td class="value">$concurrencyLevel</td></tr>
+                <tr><td><span class="label">Time Taken for Tests (测试耗时)</span></td><td class="value">$takes ms</td></tr>
+                <tr><td><span class="label">Complete Requests (完成测试次数)</span></td><td class="value">$totalRequests</td></tr>
+#if($failedRequests > 0)
+                <tr><td><span class="label">Failed Requests (失败次数)</span></td><td class="value status-fail">$failedRequests</td></tr>
+#else
+                <tr><td><span class="label">Failed Requests (失败次数)</span></td><td class="value status-success">$failedRequests</td></tr>
+#end
+                <tr><td><span class="label">Requests per second (QPS)</span></td><td class="value">$qps</td></tr>
+                <tr><td><span class="label">Time per request (平均耗时)</span></td><td class="value">$averageTime ms</td></tr>
+                <tr><td><span class="label">Time per request across all concurrent (单线程理论平均耗时)</span></td><td class="value">$onThreadAverageTime ms</td></tr>
+                <tr><td><span class="label">Shortest request (最短耗时)</span></td><td class="value">$shortestRequest ms</td></tr>
+                <tr><td><span class="label">Longest request (最长耗时)</span></td><td class="value">$longestRequest ms</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">Percentage of Requests Served Within a Certain Time (ms)</div>
+        <table class="percentile-table">
+            <thead><tr><th>Percentile</th><th>Response Time (ms)</th></tr></thead>
+            <tbody>
+#foreach($p in $percentiles)
+                <tr><td>$p.label</td><td>$p.value</td></tr>
+#end
+            </tbody>
+        </table>
+
+        <div style="margin: 25px 0; padding: 20px; background:#fff; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.12);">
+            <div style="font-size:14px;font-weight:700;margin-bottom:12px;color:#333;">Response Time Distribution</div>
+            <div class="percentile-bar" style="width:100%">
+                <span class="percentile-marker" style="left:${p50Pos}%">P50</span>
+                <span class="percentile-marker" style="left:${p99Pos}%">P99</span>
+                <span class="percentile-marker" style="left:100%">Max</span>
+            </div>
+            <div class="percentile-label">0ms ←————————————————————————→ $maxTime ms</div>
+        </div>
+
+        <footer>Stress Tester v6.5.3-SNAPSHOT | Generated by com.taobao:stress-tester</footer>
+    </div>
+</body>
+</html>
