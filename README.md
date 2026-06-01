@@ -1,5 +1,6 @@
 # java 快速压测工具
 ## 快速测试示例
+
 ```
 public class SimpleTest {
 
@@ -16,7 +17,9 @@ public class SimpleTest {
 	}
 }
 ```
+
 ## 测试结果(console)
+
 ```
 Test Name:	中文测试用例1--测试名称
 
@@ -39,12 +42,17 @@ Test Name:	中文测试用例1--测试名称
   99%	5.696833
  100%	9.594459 (longest request)--最长的耗时
 ```
+
 ## 测试结果(html)
 <img width="474" height="548" alt="image" src="https://github.com/user-attachments/assets/4008eb81-a3bd-4d04-87dd-baa7db199291" />
+
 ## 测试结果(csv)
 <img width="1263" height="241" alt="image" src="https://github.com/user-attachments/assets/7c80e5a8-3408-423e-8a97-e60983cba732" />
+
 # 阶梯压测
+
 ## 测试用例
+
 ```
 public class StepTest {
 
@@ -71,7 +79,9 @@ public class StepTest {
     }
 }
 ```
+
 ## 测试结果(console)
+
 ```
 ===== Step 1/3: Step{concurrency=1, perThread=10, total=10, thinkTimeMs=100, warmUp=0, maxErrorRate=disabled} =====
 ===== Step 2/3: Step{concurrency=2, perThread=10, total=20, thinkTimeMs=100, warmUp=0, maxErrorRate=disabled} =====
@@ -231,6 +241,8 @@ Max Concurrency: 4
   99%	11.082125
  100%	11.082125 (longest request)--最长的耗时
 ```
+
 ## 测试结果(html)
+
 <img width="1358" height="519" alt="image" src="https://github.com/user-attachments/assets/fcdc7e66-2d57-4ce3-936d-cc4835406f6e" />
 
