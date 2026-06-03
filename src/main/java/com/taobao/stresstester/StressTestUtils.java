@@ -24,6 +24,7 @@ import com.taobao.stresstester.core.StatisticsUtils;
 import com.taobao.stresstester.core.StressResult;
 import com.taobao.stresstester.core.StressResultFormater;
 import com.taobao.stresstester.core.StressTask;
+import com.taobao.stresstester.core.StressTaskWrap;
 import com.taobao.stresstester.core.StressTester;
 
 public class StressTestUtils {
@@ -85,6 +86,36 @@ public class StressTestUtils {
 		return stressTester.test(concurrencyLevel, totalRequests, stressTask, warmUpTime, thinkTimeMs, maxErrorRate);
 	}
 
+	// ==================== StressTaskWrap 重载（无返回值 lambda） ====================
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask());
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs);
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, int warmUpTime) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), warmUpTime);
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, int warmUpTime, long thinkTimeMs) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), warmUpTime, thinkTimeMs);
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, double maxErrorRate) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), maxErrorRate);
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs, double maxErrorRate) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs, maxErrorRate);
+	}
+
+	public static StressResult test(int concurrencyLevel, int totalRequests, StressTaskWrap task, int warmUpTime, long thinkTimeMs, double maxErrorRate) {
+		return test(concurrencyLevel, totalRequests, task.toStressTask(), warmUpTime, thinkTimeMs, maxErrorRate);
+	}
+
 	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTask stressTask) {
 		testAndPrint(concurrencyLevel, totalRequests, stressTask, null);
 	}
@@ -120,6 +151,36 @@ public class StressTestUtils {
 	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTask stressTask, String testName, long thinkTimeMs, double maxErrorRate) {
 		StressResult stressResult = test(concurrencyLevel, totalRequests, stressTask, thinkTimeMs, maxErrorRate);
 		printWithAbortInfo(stressResult);
+	}
+
+	// --- StressTaskWrap 重载 ---
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask());
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs);
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, double maxErrorRate) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), maxErrorRate);
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs, double maxErrorRate) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs, maxErrorRate);
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, String testName) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), testName);
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, String testName, long thinkTimeMs) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), testName, thinkTimeMs);
+	}
+
+	public static void testAndPrint(int concurrencyLevel, int totalRequests, StressTaskWrap task, String testName, long thinkTimeMs, double maxErrorRate) {
+		testAndPrint(concurrencyLevel, totalRequests, task.toStressTask(), testName, thinkTimeMs, maxErrorRate);
 	}
 
 	public static String format(StressResult stressResult) {
@@ -177,6 +238,36 @@ public class StressTestUtils {
 		return doTestAndReport(testName, concurrencyLevel, totalRequests, stressTask, thinkTimeMs, maxErrorRate);
 	}
 
+	// --- StressTaskWrap 重载 ---
+
+	public static StressResult testAndReport(int concurrencyLevel, int totalRequests, StressTaskWrap task) {
+		return testAndReport(concurrencyLevel, totalRequests, task.toStressTask());
+	}
+
+	public static StressResult testAndReport(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs) {
+		return testAndReport(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs);
+	}
+
+	public static StressResult testAndReport(int concurrencyLevel, int totalRequests, StressTaskWrap task, double maxErrorRate) {
+		return testAndReport(concurrencyLevel, totalRequests, task.toStressTask(), maxErrorRate);
+	}
+
+	public static StressResult testAndReport(int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs, double maxErrorRate) {
+		return testAndReport(concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs, maxErrorRate);
+	}
+
+	public static StressResult testAndReport(String testName, int concurrencyLevel, int totalRequests, StressTaskWrap task) {
+		return testAndReport(testName, concurrencyLevel, totalRequests, task.toStressTask());
+	}
+
+	public static StressResult testAndReport(String testName, int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs) {
+		return testAndReport(testName, concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs);
+	}
+
+	public static StressResult testAndReport(String testName, int concurrencyLevel, int totalRequests, StressTaskWrap task, long thinkTimeMs, double maxErrorRate) {
+		return testAndReport(testName, concurrencyLevel, totalRequests, task.toStressTask(), thinkTimeMs, maxErrorRate);
+	}
+
 	private static StressResult doTestAndReport(String testName, int concurrencyLevel, int totalRequests, StressTask stressTask, long thinkTimeMs, double maxErrorRate) {
 		// 1. 执行压力测试
 		StressResult stressResult = test(concurrencyLevel, totalRequests, stressTask, thinkTimeMs, maxErrorRate);
@@ -227,11 +318,19 @@ public class StressTestUtils {
 		return stressTester.stepTest(steps, stressTask);
 	}
 
+	public static StepStressResult stepTest(List<StepConfig> steps, StressTaskWrap task) {
+		return stepTest(steps, task.toStressTask());
+	}
+
 	/**
 	 * 阶梯压测并打印结果到控制台
 	 */
 	public static void stepTestAndPrint(List<StepConfig> steps, StressTask stressTask) {
 		stepTestAndPrint(null, steps, stressTask);
+	}
+
+	public static void stepTestAndPrint(List<StepConfig> steps, StressTaskWrap task) {
+		stepTestAndPrint(null, steps, task.toStressTask());
 	}
 
 	/**
@@ -255,11 +354,19 @@ public class StressTestUtils {
 		}
 	}
 
+	public static void stepTestAndPrint(String testName, List<StepConfig> steps, StressTaskWrap task) {
+		stepTestAndPrint(testName, steps, task.toStressTask());
+	}
+
 	/**
 	 * 阶梯压测：输出日志到控制台+logback，同时生成 HTML 报告和 CSV
 	 */
 	public static StepStressResult stepTestAndReport(List<StepConfig> steps, StressTask stressTask) {
 		return stepTestAndReport(null, steps, stressTask);
+	}
+
+	public static StepStressResult stepTestAndReport(List<StepConfig> steps, StressTaskWrap task) {
+		return stepTestAndReport(null, steps, task.toStressTask());
 	}
 
 	/**
@@ -301,6 +408,10 @@ public class StressTestUtils {
 		appendStepCsvResult(result);
 
 		return result;
+	}
+
+	public static StepStressResult stepTestAndReport(String testName, List<StepConfig> steps, StressTaskWrap task) {
+		return stepTestAndReport(testName, steps, task.toStressTask());
 	}
 
 	/**

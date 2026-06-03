@@ -1,18 +1,13 @@
 package com.taobao.stresstester;
 
-import com.taobao.stresstester.core.StressTask;
-
 public class SimpleTest {
 
 	public static void main(String[] args) {
-        StressTask task = new StressTask() {
-            @Override
-            public Object doTask() throws Exception {
-                Thread.sleep(5);
-                return null;
+		// 使用 StressTaskWrap + lambda（无返回值）
+		StressTestUtils.testAndReport("中文测试用例1", 10, 10000, () -> pert());
+	}
 
-            }
-        };
-        StressTestUtils.testAndReport("中文测试用例1", 10, 10000, task);
+	private static void pert() throws Exception {
+		Thread.sleep(5);
 	}
 }

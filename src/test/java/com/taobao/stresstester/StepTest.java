@@ -10,8 +10,8 @@ import java.util.List;
 
 public class StepTest {
 
-	public static void main(String[] args) {
-        StressTask task = new StressTask(){
+    public static void main(String[] args) {
+        StressTask task = new StressTask() {
             @Override
             public Object doTask() throws Exception {
                 Thread.sleep(10);
@@ -24,12 +24,11 @@ public class StepTest {
                 StepConfig.builder().concurrencyLevel(4).requestsPerThread(10).thinkTimeMs(100).build()
         );
 
-        StepStressResult result = StressTestUtils.stepTest(steps, task);
-        result.setTestName("阶梯压测测试完成");
-        for (StepResult sr : result.getSteps()) {
-            String stepText = "\n--- Step " + sr.getStepIndex() + ": " + sr.getConfig() + " ---";
-            String detailText = StressTestUtils.format(sr.getStressResult());
-            System.out.println(stepText + "\n" + detailText);
-        }
-	}
+        StepStressResult result = StressTestUtils.stepTestAndReport("阶梯压测示例", steps, task);
+//        for (StepResult sr : result.getSteps()) {
+//            String stepText = "\n--- Step " + sr.getStepIndex() + ": " + sr.getConfig() + " ---";
+//            String detailText = StressTestUtils.format(sr.getStressResult());
+//            System.out.println(stepText + "\n" + detailText);
+//        }
+    }
 }
