@@ -23,6 +23,58 @@ StressTestUtils.testAndReport("压测示例", 10, 10000, () -> {
 </dependency>
 ```
 
+## 测试结果展示
+
+### Console / Log
+
+```
+Test Name:	压测示例--测试名称
+
+ Concurrency Level:	10--并发数
+ Time taken for tests:	5608.879 ms--测试耗时
+ Complete Requests:	10000--完成测试次数
+ Failed Requests:	0--失败次数
+ Requests per second:	1785.6179--QPS
+ Time per request:	5.6003027 ms--平均耗时
+ Time per request:	0.5600302 ms (across all concurrent requests)--平均耗时，忽略并发影响
+ Shortest request:	5.008459 ms--最短耗时
+ Percentage of the requests served within a certain time (ms)
+  50%	5.633083
+  66%	5.635542
+  75%	5.637667
+  80%	5.639583
+  90%	5.650667
+  95%	5.658875
+  98%	5.677042
+  99%	5.696833
+ 100%	9.594459 (longest request)
+```
+
+### HTML 报告
+
+<img width="474" height="548" alt="HTML报告" src="https://github.com/user-attachments/assets/4008eb81-a3bd-4d04-87dd-baa7db199291" />
+
+### CSV 数据
+
+<img width="1263" height="241" alt="CSV数据" src="https://github.com/user-attachments/assets/7c80e5a8-3408-423e-8a97-e60983cba732" />
+
+### 阶梯压测 Console
+
+```
+===== Step 1/3: Step{concurrency=1, perThread=10, total=10, thinkTimeMs=100} =====
+===== Step 2/3: Step{concurrency=2, perThread=10, total=20, thinkTimeMs=100} =====
+===== Step 3/3: Step{concurrency=4, perThread=10, total=40, thinkTimeMs=100} =====
+===== Step Stress Test Result =====
+Test Name: 阶梯压测示例
+Total Steps: 3
+Total Requests: 70
+Total Failed: 0
+Max Concurrency: 4
+  Step 1: concurrency=1, requests=10, failed=0, avg=11.18ms
+  Step 2: concurrency=2, requests=20, failed=0, avg=10.86ms
+  Step 3: concurrency=4, requests=40, failed=0, avg=10.88ms
+```
+
 ## API
 
 ### 1. 基础压测
